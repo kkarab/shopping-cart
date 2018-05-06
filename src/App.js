@@ -25,6 +25,11 @@ const products = [
 
 
 class App extends Component {
+  state = {products:products, basket:products.map((item, index) => {
+    return {...item, quantity:0};
+  })}
+
+
   render() {
     return (
       <div className="App">
@@ -36,7 +41,7 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
         <ul className='CartItems'>
-        {products.map((item, index) => (
+        {this.state.basket.map((item, index) => (
           <CartItem key={index} { ...item} onPlusClick={() => {
             this.incrementQuantity(item.id)
           }} />
@@ -47,7 +52,16 @@ class App extends Component {
   }
 
   incrementQuantity(productId) {
-
+    // console.log('increment '+productId)
+    // console.log(this.state)
+    this.setState({
+    products: this.state.products,
+    basket: this.state.basket.map((item,index) => {
+      if (item.id!==productId) return item
+      return {...item, quantity: item.quantity +1}
+    })
+    })
+    // console.log(this.state)
   }
 }
 
