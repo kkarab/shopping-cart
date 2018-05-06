@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react'
 
 class CartItem extends PureComponent {
   render() {
-    const { name, price } = this.props
+    const { name, price, onPlusClick } = this.props
     return (
       <li className="CartItem">
         <p className="name">{name}</p>

@@ -23,6 +23,7 @@ const products = [
 ]
 
 
+
 class App extends Component {
   render() {
     return (
@@ -36,11 +37,17 @@ class App extends Component {
         </p>
         <ul className='CartItems'>
         {products.map((item, index) => (
-          <CartItem key={index} { ...item } />
+          <CartItem key={index} { ...item} onPlusClick={() => {
+            this.incrementQuantity(item.id)
+          }} />
         ))}
         </ul>
       </div>
     );
+  }
+
+  incrementQuantity(productId) {
+
   }
 }
 
