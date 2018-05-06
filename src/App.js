@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import CartItem from './components/CartItem.js' ;
+import CheckoutButton from './components/CheckoutButton.js' ;
 import Clock from 'react-live-clock';
 
 
@@ -26,9 +27,13 @@ const products = [
 
 
 class App extends Component {
-  state = {products:products, basket:products.map((item, index) => {
-    return {...item, quantity:0};
-  })}
+  state = {
+    products:products,
+    basket:products.map((item, index) => {
+          return {...item, quantity:0};
+        }),
+    total : 0
+    }
 
 
   render() {
@@ -49,6 +54,14 @@ class App extends Component {
           }} />
         ))}
         </ul>
+        <p>
+          <CheckoutButton onCheckOutClick={() => {
+            this.updateTotal()
+          }}/>
+        </p>
+        <p>
+          {"Total value: " + this.state.total}
+        </p>
       </div>
     );
   }
@@ -61,9 +74,20 @@ class App extends Component {
     basket: this.state.basket.map((item,index) => {
       if (item.id!==productId) return item
       return {...item, quantity: item.quantity +1}
-    })
+    }),
+    total : this.state.total
     })
     // console.log(this.state)
+  }
+
+  updateTotal() {
+    this.setState({
+      products: this.state.products,
+      basket: this.state.basket,
+      total: this.state.basket.map((item,index) => {
+        return item.price * item.quantity
+      }).reduce((a,b) => a + b, 0)
+    })
   }
 }
 
